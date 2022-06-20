@@ -1,39 +1,22 @@
 import React from "react";
-import styled from "styled-components";
+import SelectedFC from "./SelectedFields/SelectedFC";
+import UnSelectedFC from "./SelectedFields/UnSelectedFC";
 
-const Selected = styled.div`
-  background-color: ${(props) => props.color};
-  border: 1px solid;
-  width: 100%;
-  height: 100%;
-`;
-
-const UnSelected = styled.div`
-  border: 1px solid;
-  width: 100%;
-  height: 100%;
-`;
-
-function Row({ color, value, setValue, arr }) {
+function Row({ setValue, value, color, arr }) {
   return (
     <>
       {arr.map((item, index) => {
-        if (value.includes(item))
+        if (value.includes(item.number)) {
+          return <SelectedFC key={index + 100} color={color} item={item} />;
+        } else
           return (
-            <Selected
-              key={index + 100}
-              color={color}
-              onClick={() =>
-                setValue([...value].filter((element) => element !== item))
-              }
-            ></Selected>
-          );
-        else
-          return (
-            <UnSelected
+            <UnSelectedFC
               key={index + 200}
-              onClick={() => setValue([...value, item])}
-            ></UnSelected>
+              color={color}
+              item={item}
+              setValue={setValue}
+              value={value}
+            />
           );
       })}
     </>
